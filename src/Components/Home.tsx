@@ -1,6 +1,8 @@
 import '../CSS/Home.css'
 import details from'../Assets/punt-frontend-assignment (1).json'
 import { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 interface FontVariants {
     [weight: string]: string;
   }
@@ -10,18 +12,26 @@ interface FontDetails {
   
 export const Home = () => {
     const fontDetails: FontDetails = details;
-    console.log(fontDetails);
-    console.log(details);
+    // console.log(fontDetails);
+    // console.log(details);
     const[text,setText]=useState('')
+    const[toggle,setToggle]=useState(false)
     const [font, setFont] = useState<string>('');
     const [weidth, setWeidth] = useState<string>('');
     // const [fontWeight, setFontWeight] = useState<string>('');
-    const [fontWeights, setFontWeights] = useState<string[]>([]);
+    const [fontWeights, setFontWeights] = useState<FontVariants>({});
+    // useEffect(()=>{
+    //     if(fontDetails[font]&&fontDetails[font][weidth+'italic']!==undefined&&toggle){
+
+    //     }
+    // },[toggle])
     useEffect(() => {
         const head = document.head;
         if(weidth){
-        
-        const url = fontDetails[font][weidth];
+            let url = fontDetails[font][weidth];
+            if(fontDetails[font]&&fontDetails[font][weidth+'italic']!==undefined&&toggle){
+                url=fontDetails[font][weidth+'italic']
+            }
         console.log(url)
             const link = document.createElement('link');
             link.rel = 'stylesheet';
@@ -40,15 +50,22 @@ export const Home = () => {
             head.appendChild(style);
             console.log(text);
         }
-    }, [weidth]);
+        // console.log("Fontweidth",fontWeights)
+    }, [weidth,toggle]);
     useEffect(() => {
         if (font) {
-            // Get the weights for the selected font
-            const weights = Object(fontDetails[font]);
-            setFontWeights(weights);
-            console.log("font weidth",fontWeights)
-          } else {
-            setFontWeights([]);
+            const newFontWeights: FontVariants = {};
+       Object.entries(fontDetails[font]).forEach(([weight, url]) => {
+        if (weight.length === 3) {
+          newFontWeights[weight] = url;
+        }
+      })
+      setFontWeights(newFontWeights);
+        // console.log('fonts',fontWeights,fontDetails[font])
+    } 
+        
+        else {
+            setFontWeights({});
           }
     }, [font]);
     useEffect(()=>{
@@ -69,6 +86,7 @@ export const Home = () => {
         localStorage.setItem('text', text);
         localStorage.setItem('font', font);
         localStorage.setItem('weight', weidth);
+        toast("Data saved")
       }
       const handlereset=()=>{
         setText('');
@@ -77,8 +95,10 @@ export const Home = () => {
         localStorage.removeItem('text');
         localStorage.removeItem('font');
         localStorage.removeItem('weight');
+        toast.success("Success Notification !");
       }
-    return (
+    return (<>
+        {/* <ToastContainer/> */}
     <div className='home-box'>
         <div className="container"> 
             <div className="desc-sec">
@@ -91,14 +111,19 @@ export const Home = () => {
                 </select>
             </div>
             <div className="varient-sec">
-            <select name="" id="" value={weidth} onChange={(e)=>{setWeidth(e.target.value)}}>
+            <select name="" id="" value={weidth} onChange={(e)=>{setWeidth(e.target.value);setToggle(false)}}>
                 
             <option value="">Select Font</option>
-                    {!font?'':Object.keys(fontDetails[font]).map((weidth)=>(
+                    {!font?'':Object.keys(fontWeights).map((weidth)=>(
                         <option key={weidth} value={weidth}>{weidth}</option>
                     ))}
                 </select>
             </div>
+            {fontDetails[font]&&fontDetails[font][weidth+'italic']==undefined?'':<div className="toggle">
+                <label >Italic</label>
+                
+                <button className='toggle-btn' onClick={()=>{setToggle(!toggle)}} >{toggle?'ON':'OFF'}</button>
+            </div>}
             </div>
 
             <div className="text-sec">
@@ -107,8 +132,10 @@ export const Home = () => {
             <div className="reset-save">
                 <button className="btn" onClick={handlereset}>Reset</button>
                 <button className="btn" onClick={handlesave}>Save</button>
+                {/* <ToastContainer/> */}
             </div>
         </div>
     </div>
+                        </>
   )
 }
