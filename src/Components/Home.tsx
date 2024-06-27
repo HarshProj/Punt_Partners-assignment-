@@ -1,8 +1,8 @@
 import '../CSS/Home.css'
 import details from'../Assets/punt-frontend-assignment (1).json'
 import { useEffect, useState } from 'react';
-import {toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+import {toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 interface FontVariants {
     [weight: string]: string;
   }
@@ -86,7 +86,7 @@ export const Home = () => {
         localStorage.setItem('weight', weidth);
         localStorage.setItem('toggle', JSON.stringify(toggle));
         // console.log( JSON.stringify(toggle))
-        toast("Data saved")
+        toast.success("Data saved!")
       }
       const handlereset=()=>{
         setText('');
@@ -96,10 +96,10 @@ export const Home = () => {
         localStorage.removeItem('font');
         localStorage.removeItem('weight');
         localStorage.removeItem('toggle');
-        toast.success("Success Notification !");
+        toast.success("Data Reset!");
       }
     return (<>
-        {/* <ToastContainer/> */}
+        <ToastContainer/>
     <div className='home-box'>
     <h1>Font family analyser</h1>
         <div className="container"> 
