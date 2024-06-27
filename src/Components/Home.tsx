@@ -2,7 +2,7 @@ import '../CSS/Home.css'
 import details from'../Assets/punt-frontend-assignment (1).json'
 import { useEffect, useState } from 'react';
 import {toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import 'react-toastify/dist/ReactToastify.css';
 interface FontVariants {
     [weight: string]: string;
   }
