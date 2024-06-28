@@ -1,46 +1,43 @@
-# Getting Started with Create React App
+# Steps to Implement the Text Editor
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project Setup
 
-## Available Scripts
+Create a new React + TypeScript project.
+Install necessary dependencies: react, react-dom, @types/react, @types/react-dom, axios for API calls, and styled-components for styling.
+## Component Structure
 
-In the project directory, you can run:
+App.tsx: Main component to hold the editor and settings.
+Home.tsx:this component hold the text editor
+## Fetching Google Fonts Data
 
-### `npm start`
+Use the provided JSON file to map font names to their variants and URLs.
+## State Management
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Use useState to manage the text, selected font family, weight, and italic state.
+Use useEffect for auto-saving and loading from localStorage.
+## Implementing Auto-Save
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Save the text, font family, and selected variant in localStorage on every change.
+Load the saved data from localStorage on component mount.
+## Handling Font Variants
 
-### `npm test`
+Update the font weight and italic options based on the selected font family.
+Handle the logic to select the closest available variant if the exact one is not available.
+Styling
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Apply the selected font family, weight, and italic style to the text area using inline styles or styled-components.
+## Error Handling
 
-### `npm run build`
+Handle invalid font variants gracefully.
+Ensure the application does not crash with invalid data from localStorage.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Error Handling and Improvements
+## Invalid Font Variants
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Validate the font variant before applying it.
+Fallback to the closest available variant if the exact one is not available.
+## Future Improvements
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Integrate with a persistent backend.
+Improve the UI design.
+Add more comprehensive unit tests.
